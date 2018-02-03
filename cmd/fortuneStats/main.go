@@ -47,5 +47,12 @@ func main() {
 	check(scanner.Err())
 	cmd.Wait()
 
+	var count int
+	for i := range byteFreqs {
+		// Additive smoothing
+		byteFreqs[i]++
+		count += byteFreqs[i]
+	}
+
 	fmt.Printf("var byteFreqs = %#v\n", byteFreqs)
 }
