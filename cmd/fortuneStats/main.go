@@ -28,7 +28,7 @@ func main() {
 	check(err)
 
 	// Match on all fortune lists with regex matching anything.
-	cmd := exec.Command(path, "-am", ".*")
+	cmd := exec.Command(path, "-m", "[\\s\\S]*")
 	check(err)
 
 	cmdOut, err := cmd.StdoutPipe()
