@@ -31,6 +31,7 @@ func main() {
 
 	check(cmd.Start())
 
+	count := 256 // Account for additive smoothing
 	scanner := bufio.NewScanner(cmdOut)
 	for scanner.Scan() {
 		line := scanner.Bytes()
@@ -40,6 +41,7 @@ func main() {
 			continue
 		}
 
+		count += len(line)
 		for _, b := range line {
 			byteFreqs[b]++
 		}
@@ -47,12 +49,14 @@ func main() {
 	check(scanner.Err())
 	cmd.Wait()
 
-	var count int
+	// Calculate distribution
 	for i := range byteFreqs {
 		// Additive smoothing
 		byteFreqs[i]++
-		count += byteFreqs[i]
+
+		byteDist[i] = float64(byteFreqs[i]) / float64(count)
 	}
 
 	fmt.Printf("var byteFreqs = %#v\n", byteFreqs)
+	fmt.Printf("var byteDist = %#v\n", byteDist)
 }
