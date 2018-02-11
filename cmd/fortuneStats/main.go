@@ -30,20 +30,13 @@ func scanStrfile(data []byte, atEOF bool) (advance int, token []byte, err error)
 		// Done
 		return 0, nil, nil
 	}
-	if i := bytes.Index(data, []byte("%\n")); i == 0 {
+	if i := bytes.Index(data, []byte("%\n")); i != -1 {
 		// At beginning with LF
 		return i + 2, data[:i], nil
 	}
-	if i := bytes.Index(data, []byte("%\r\n")); i == 0 {
+	if i := bytes.Index(data, []byte("%\r\n")); i != -1 {
 		// At beginning with CRLF
 		return i + 3, data[:i], nil
-	}
-	if i := bytes.Index(data, []byte("\n%\n")); i != -1 {
-		// Middle of data with LF
-		return i + 3, data[:i+1], nil
-	}
-	if i := bytes.Index(data, []byte("\r\n%\r\n")); i != -1 {
-		return i + 4, data[:i+2], nil
 	}
 	if atEOF {
 		// Remaining data
