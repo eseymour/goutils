@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"math"
 	"math/rand"
 	"os"
 	"time"
@@ -41,6 +42,10 @@ func main() {
 			words = append(words, word)
 		}
 	}
+
+	// Entropy calculation
+	entropy := math.Log2(math.Pow(float64(len(words)), float64(numWords)))
+	fmt.Printf("%d passwords with ~%.0f bits of entropy each:\n\n", numPass, entropy)
 
 	for i := 0; i < numPass; i++ {
 		for j := 0; j < numWords; j++ {
