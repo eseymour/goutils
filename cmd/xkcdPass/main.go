@@ -15,6 +15,7 @@ import (
 var (
 	numPass  int
 	numWords int
+	verbose  bool
 )
 
 func init() {
@@ -22,8 +23,9 @@ func init() {
 	rand.Seed(time.Now().Unix())
 
 	// Basic flags
+	flag.IntVar(&numPass, "p", 1, "number of passwords to generate")
 	flag.IntVar(&numWords, "n", 4, "number of words per password")
-	flag.IntVar(&numPass, "p", 1, "number of passwords")
+	flag.BoolVar(&verbose, "v", false, "verbose output to stderr")
 	flag.Parse()
 }
 
@@ -44,15 +46,18 @@ func main() {
 		}
 	}
 
-	// Entropy calculation
-	entropy := math.Log2(math.Pow(float64(len(words)), float64(numWords)))
-	fmt.Printf("%d passwords with ~%.0f bits of entropy each:\n\n", numPass, entropy)
-
 	// Password generation
 	for i := 0; i < numPass; i++ {
 		for j := 0; j < numWords; j++ {
 			fmt.Printf("%s ", words[rand.Intn(len(words))])
 		}
 		fmt.Println()
+	}
+
+	// Entropy calculation
+	if verbose {
+		entropy := math.Log2(math.Pow(float64(len(words)), float64(numWords)))
+		fmt.Fprintf(os.Stderr, "Generated %d password(s) with ~%.0f bits of entropy each.\n",
+			numPass, entropy)
 	}
 }
