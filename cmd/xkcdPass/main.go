@@ -12,6 +12,11 @@ import (
 	"unicode/utf8"
 )
 
+var (
+	numPass  int
+	numWords int
+)
+
 func init() {
 	// Seed RNG since it is not normally seeded
 	rand.Seed(time.Now().Unix())
@@ -21,11 +26,6 @@ func init() {
 	flag.IntVar(&numPass, "p", 1, "number of passwords")
 	flag.Parse()
 }
-
-var (
-	numWords int
-	numPass  int
-)
 
 func main() {
 	// Not portable right now
