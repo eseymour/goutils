@@ -32,6 +32,7 @@ func main() {
 	f, _ := os.Open("/usr/share/dict/words")
 	s := bufio.NewScanner(f)
 
+	// Load words into slice for random access
 	var words []string
 	for s.Scan() {
 		word := s.Text()
@@ -47,6 +48,7 @@ func main() {
 	entropy := math.Log2(math.Pow(float64(len(words)), float64(numWords)))
 	fmt.Printf("%d passwords with ~%.0f bits of entropy each:\n\n", numPass, entropy)
 
+	// Password generation
 	for i := 0; i < numPass; i++ {
 		for j := 0; j < numWords; j++ {
 			fmt.Printf("%s ", words[rand.Intn(len(words))])
