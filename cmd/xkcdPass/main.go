@@ -57,6 +57,7 @@ func main() {
 	// Entropy calculation
 	if verbose {
 		entropy := math.Round(math.Log2(float64(len(words))) * float64(numWords))
+		fmt.Fprintf(os.Stderr, "Generated %d password(s) with ~%.f bits of entropy each.\n",
 			numPass, entropy)
 	}
 }
