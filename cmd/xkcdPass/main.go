@@ -30,8 +30,16 @@ func init() {
 }
 
 func main() {
-	// Not portable right now
-	f, _ := os.Open("/usr/share/dict/words")
+	// Check common words file locations
+	f, err := os.Open("/usr/share/dict/words")
+	if err != nil {
+		// Try again
+		f, err = os.Open("/usr/dict/words")
+		if err != nil {
+			fmt.Fprintln(os.Stderr, "Unable to find a words file.")
+			os.Exit(1)
+		}
+	}
 	s := bufio.NewScanner(f)
 
 	// Load words into slice for random access
